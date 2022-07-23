@@ -7,3 +7,7 @@ Code for the paper [_Extended Anderson Criticality in Heavy-Tailed Neural Networ
 Asem Wardak and Pulin Gong
 *Phys. Rev. Lett.* **129**, 048103
 (2022)
+
+## Requirements
+
+Python 3 for network simulations on the PBS cluster, Wolfram Language 11+ for data analysis
