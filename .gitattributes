@@ -1,3 +1,2 @@
 # These files contain output data which skew the reported language distribution
 *.nb -linguist-detectable
-definitions.nb linguist-detectable
