@@ -10,4 +10,4 @@ Asem Wardak and Pulin Gong
 
 ## Requirements
 
-Python 3 for network simulations on the PBS cluster, Wolfram Language 11+ for data analysis
+Python 3 for network simulations on the PBS cluster, Wolfram Language 11+ for theory and data analysis
