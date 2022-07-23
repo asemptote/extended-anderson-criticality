@@ -1,0 +1,470 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     17429,        462]
+NotebookOptionsPosition[     15574,        429]
+NotebookOutlinePosition[     15907,        444]
+CellTagsIndexPosition[     15864,        441]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Utilities", "Section",
+ CellChangeTimes->{{3.8469856659128523`*^9, 3.8469857004922237`*^9}, {
+  3.847782493715789*^9, 
+  3.8477824954949913`*^9}},ExpressionUUID->"697318a9-1244-4ac0-a112-\
+893bfa77a154"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"$HistoryLength", "=", "1"}], ";"}]], "Input",
+ CellChangeTimes->{{3.833187810271669*^9, 3.8331878129310293`*^9}, {
+  3.833189044814746*^9, 3.833189061739595*^9}},
+ CellLabel->
+  "12/6/21 20:28:00 \
+In[1]:=",ExpressionUUID->"16ecb3cc-e50f-4e08-a5ae-3409b3be733f"],
+
+Cell[BoxData[
+ RowBox[{"Needs", "[", "\"\<SubKernels`RemoteKernels`\>\"", "]"}]], "Input",
+ CellLabel->
+  "12/6/21 20:28:00 \
+In[2]:=",ExpressionUUID->"64785ab6-241f-48da-8290-1172b681f450"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ClearAll", "[", "EnsureKernels", "]"}], ";", 
+  RowBox[{
+   RowBox[{"EnsureKernels", "[", 
+    RowBox[{"name_", ",", "nKernels_"}], "]"}], ":=", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{"CloseKernels", "@", 
+      RowBox[{
+       RowBox[{"Select", "[", 
+        RowBox[{"Not", "@*", 
+         RowBox[{"FreeQ", "[", "name", "]"}]}], "]"}], "@", 
+       RowBox[{"Kernels", "[", "]"}]}]}], ";", 
+     RowBox[{"LaunchKernels", "[", 
+      RowBox[{"RemoteMachine", "[", 
+       RowBox[{"name", ",", "nKernels"}], "]"}], "]"}], ";", 
+     RowBox[{"GroupBy", "[", 
+      RowBox[{
+       RowBox[{"Kernels", "[", "]"}], ",", 
+       RowBox[{
+        RowBox[{"#", "[", 
+         RowBox[{"[", 
+          RowBox[{"1", ",", "3"}], "]"}], "]"}], "&"}], ",", "Length"}], 
+      "]"}]}], ")"}]}]}]], "Input",
+ CellChangeTimes->{{3.84128656608889*^9, 3.841286642640634*^9}, {
+  3.841286925877413*^9, 3.84128694006359*^9}, {3.841287200351616*^9, 
+  3.841287207515644*^9}, {3.841302150532802*^9, 3.841302154881068*^9}, {
+  3.843040992815509*^9, 3.84304099662318*^9}},
+ CellLabel->
+  "12/6/21 20:28:00 \
+In[3]:=",ExpressionUUID->"dd2f022b-5a7b-4e0e-ad0b-02231643b229"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"ClearAll", "[", "BlockParallel", "]"}], ";", 
+  RowBox[{"SetAttributes", "[", 
+   RowBox[{"BlockParallel", ",", "HoldRest"}], "]"}], ";", 
+  RowBox[{
+   RowBox[{"BlockParallel", "::", "usage"}], "=", 
+   "\"\<BlockParallel[nThreads,expr] specifies that any parallel kernels used \
+in the execution of expr make use of nThreads threads per kernel.\>\""}], ";", 
+  RowBox[{
+   RowBox[{"BlockParallel", "[", 
+    RowBox[{"nThreads_", ",", "expr_"}], "]"}], ":=", 
+   RowBox[{"With", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{"opt", "=", 
+       RowBox[{"First", "@", 
+        RowBox[{"ParallelEvaluate", "[", 
+         RowBox[{"SystemOptions", "[", 
+          RowBox[{"\"\<ParallelOptions\>\"", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{
+            "\"\<MKLThreadNumber\>\"", ",", "\"\<ParallelThreadNumber\>\""}], 
+            "}"}]}], "]"}], "]"}]}]}], "}"}], ",", 
+     RowBox[{
+      RowBox[{"ParallelEvaluate", "[", 
+       RowBox[{"SetSystemOptions", "[", 
+        RowBox[{"\"\<ParallelOptions\>\"", "\[Rule]", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"\"\<MKLThreadNumber\>\"", "\[Rule]", "nThreads"}], ",", 
+           RowBox[{"\"\<ParallelThreadNumber\>\"", "\[Rule]", "nThreads"}]}], 
+          "}"}]}], "]"}], "]"}], ";", 
+      RowBox[{"With", "[", 
+       RowBox[{
+        RowBox[{"{", 
+         RowBox[{"result", "=", 
+          RowBox[{"CheckAbort", "[", 
+           RowBox[{"expr", ",", 
+            RowBox[{
+             RowBox[{"ParallelEvaluate", "[", 
+              RowBox[{"SetSystemOptions", "@", "opt"}], "]"}], ";", 
+             RowBox[{"Abort", "[", "]"}]}]}], "]"}]}], "}"}], ",", 
+        RowBox[{
+         RowBox[{"ParallelEvaluate", "[", 
+          RowBox[{"SetSystemOptions", "@", "opt"}], "]"}], ";", "result"}]}], 
+       "]"}]}]}], "]"}]}]}]], "Input",
+ CellChangeTimes->{{3.841293857095152*^9, 3.8412939372187023`*^9}, {
+  3.841293967468857*^9, 3.841293974523806*^9}, {3.841294187717606*^9, 
+  3.841294288270441*^9}, {3.841294365141322*^9, 3.841294369227003*^9}, {
+  3.841294740646509*^9, 3.8412948410281057`*^9}, {3.841352335544327*^9, 
+  3.8413523511562433`*^9}},
+ CellLabel->
+  "12/6/21 20:28:00 \
+In[4]:=",ExpressionUUID->"9baea543-5454-41d9-9dac-20609431c992"],
+
+Cell["Backport EchoTiming:", "Text",
+ CellChangeTimes->{{3.846989636329653*^9, 3.846989663450629*^9}, {
+  3.846989846072648*^9, 
+  3.846989850867049*^9}},ExpressionUUID->"e3be6eb5-50c3-4327-a67a-\
+55682ae7e829"],
+
+Cell[BoxData[
+ RowBox[{"If", "[", 
+  RowBox[{
+   RowBox[{"$VersionNumber", "<", "12.2"}], ",", 
+   RowBox[{
+    RowBox[{"ClearAll", "[", "EchoTiming", "]"}], ";", 
+    RowBox[{"SetAttributes", "[", 
+     RowBox[{"EchoTiming", ",", "HoldFirst"}], "]"}], ";", 
+    RowBox[{
+     RowBox[{"EchoTiming", "[", 
+      RowBox[{"expr_", ",", 
+       RowBox[{"label_:", "\"\<\>\""}], ",", 
+       RowBox[{"f_:", "First"}]}], "]"}], ":=", 
+     RowBox[{"With", "[", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"res", "=", 
+         RowBox[{"AbsoluteTiming", "@", "expr"}]}], "}"}], ",", 
+       RowBox[{
+        RowBox[{"Echo", "[", 
+         RowBox[{"res", ",", "label", ",", "f"}], "]"}], ";", 
+        RowBox[{"Last", "@", "res"}]}]}], "]"}]}]}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.841389392882421*^9, 3.84138940911789*^9}, {
+  3.841389446362301*^9, 3.8413895764254093`*^9}, {3.8413967293255053`*^9, 
+  3.841396762650751*^9}, {3.8413968270133543`*^9, 3.84139682854338*^9}, {
+  3.841398542209711*^9, 3.841398543089725*^9}, {3.841400701878766*^9, 
+  3.841400706478015*^9}, {3.841400736949666*^9, 3.8414007642883873`*^9}, {
+  3.846989804988984*^9, 3.846989824975202*^9}, {3.846989913100169*^9, 
+  3.8469899327995872`*^9}},
+ CellLabel->
+  "12/6/21 20:28:00 \
+In[5]:=",ExpressionUUID->"d9d76f6f-4771-4544-a1ca-8da0ef857bef"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"HistogramPDFList", "[", 
+   RowBox[{"samples_", ",", 
+    RowBox[{"bspec_:", "Automatic"}]}], "]"}], ":=", 
+  RowBox[{"Transpose", "@", 
+   RowBox[{
+    RowBox[{"MapAt", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"MovingAverage", "[", 
+        RowBox[{"#", ",", "2"}], "]"}], "&"}], ",", "1"}], "]"}], "@", 
+    RowBox[{"HistogramList", "[", 
+     RowBox[{"samples", ",", "bspec", ",", "\"\<PDF\>\""}], 
+     "]"}]}]}]}]], "Input",
+ CellChangeTimes->{{3.84165848859411*^9, 3.841658621278338*^9}},
+ CellLabel->
+  "12/6/21 20:28:01 \
+In[6]:=",ExpressionUUID->"77863fac-fd36-48ef-ba6e-5afb65d87a18"],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"ParallelOuter", "=", 
+  RowBox[{
+   RowBox[{"ResourceFunction", "[", "\"\<ParallelOuter\>\"", "]"}], "[", 
+   RowBox[{"\"\<MapFunction\>\"", "\[Rule]", 
+    RowBox[{"ResourceFunction", "[", "\"\<ParallelMapMonitored\>\"", "]"}]}], 
+   "]"}]}]], "Input",
+ CellLabel->
+  "12/6/21 20:28:01 \
+In[7]:=",ExpressionUUID->"39c83da9-7b05-4e84-af08-222cc3e5786d"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   InterpretationBox[
+    TagBox[
+     StyleBox[
+      StyleBox[
+       FrameBox[GridBox[{
+          {
+           StyleBox[
+            StyleBox[
+             AdjustmentBox["\<\"[\[FilledSmallSquare]]\"\>",
+              BoxBaselineShift->-0.25,
+              BoxMargins->{{0, 0}, {-1, -1}}], "ResourceFunctionIcon",
+             
+             FontColor->RGBColor[
+              0.8745098039215686, 0.2784313725490196, 0.03137254901960784]],
+            ShowStringCharacters->False,
+            FontFamily->"Source Sans Pro Black",
+            FontSize->Rational[10, 13] Inherited,
+            FontWeight->"Heavy",
+            PrivateFontOptions->{"OperatorSubstitution"->False}], 
+           StyleBox[
+            StyleBox["\<\"ParallelOuter\"\>", "ResourceFunctionLabel"],
+            ShowStringCharacters->False,
+            FontSize->Rational[12, 13] Inherited]}
+         }]], "ResourceFunctionFrame"],
+      FrameBoxOptions->{Background->GrayLevel[0.5, 0.15],
+      BaseStyle->{
+       "StandardForm", LineSpacing -> {0, 0}, LineBreakWithin -> False},
+      FrameMargins->{{3, 3}, {0, 0}},
+      FrameStyle->Directive[
+        GrayLevel[0.5, 0.35], 
+        AbsoluteThickness[0.5]],
+      RoundingRadius->4},
+      GridBoxOptions->{FrameStyle->GrayLevel[1, 0],
+      GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+      GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+      GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+      GridBoxSpacings->{"Columns" -> {{0.25}}, "Rows" -> {-0.1, {}, 0}}}],
+     {"FunctionResourceBox", 
+      RGBColor[0.8745098039215686, 0.2784313725490196, 0.03137254901960784], 
+      "\"ParallelOuter\""}],
+    ResourceFunction["ParallelOuter"],
+    Selectable->False], "[", 
+   RowBox[{"##1", ",", 
+    RowBox[{"\<\"MapFunction\"\>", "\[Rule]", 
+     InterpretationBox[
+      TagBox[
+       StyleBox[
+        StyleBox[
+         FrameBox[GridBox[{
+            {
+             StyleBox[
+              StyleBox[
+               AdjustmentBox["\<\"[\[FilledSmallSquare]]\"\>",
+                BoxBaselineShift->-0.25,
+                BoxMargins->{{0, 0}, {-1, -1}}], "ResourceFunctionIcon",
+               
+               FontColor->RGBColor[
+                0.8745098039215686, 0.2784313725490196, 0.03137254901960784]],
+              
+              ShowStringCharacters->False,
+              FontFamily->"Source Sans Pro Black",
+              FontSize->Rational[10, 13] Inherited,
+              FontWeight->"Heavy",
+              PrivateFontOptions->{"OperatorSubstitution"->False}], 
+             StyleBox[
+              
+              StyleBox["\<\"ParallelMapMonitored\"\>", 
+               "ResourceFunctionLabel"],
+              ShowStringCharacters->False,
+              FontSize->Rational[12, 13] Inherited]}
+           }]], "ResourceFunctionFrame"],
+        FrameBoxOptions->{Background->GrayLevel[0.5, 0.15],
+        BaseStyle->{
+         "StandardForm", LineSpacing -> {0, 0}, LineBreakWithin -> False},
+        FrameMargins->{{3, 3}, {0, 0}},
+        FrameStyle->Directive[
+          GrayLevel[0.5, 0.35], 
+          AbsoluteThickness[0.5]],
+        RoundingRadius->4},
+        GridBoxOptions->{FrameStyle->GrayLevel[1, 0],
+        GridBoxAlignment->{"Columns" -> {{Left}}, "Rows" -> {{Automatic}}},
+        GridBoxFrame->{"Columns" -> {{True}}, "Rows" -> {{True}}},
+        GridBoxItemSize->{"Columns" -> {{Automatic}}, "Rows" -> {{Automatic}}},
+        GridBoxSpacings->{"Columns" -> {{0.25}}, "Rows" -> {-0.1, {}, 0}}}],
+       {"FunctionResourceBox", 
+        RGBColor[0.8745098039215686, 0.2784313725490196, 0.03137254901960784],
+         "\"ParallelMapMonitored\""}],
+      ResourceFunction["ParallelMapMonitored"],
+      Selectable->False]}]}], "]"}], "&"}]], "Output",
+ CellChangeTimes->{
+  3.841658069959889*^9, 3.8416973006855*^9, 3.841733893575935*^9, 
+   3.8417361733124723`*^9, 3.844687402635929*^9, 3.846989454243973*^9, 
+   3.84699094073368*^9, 3.847002851573113*^9, 3.8470037677060833`*^9, 
+   3.847175827993413*^9, {3.847446342610869*^9, 3.8474463800077477`*^9}},
+ CellLabel->
+  "12/3/21 02:06:20 \
+Out[131]=",ExpressionUUID->"27d790f8-6382-44e4-8b70-37781c271849"]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"pubStyle", "[", 
+   RowBox[{"size_:", "14"}], "]"}], ":=", 
+  RowBox[{"Directive", "[", 
+   RowBox[{
+    RowBox[{"GrayLevel", "[", "0", "]"}], ",", 
+    RowBox[{"FontSize", "\[Rule]", "size"}], ",", 
+    RowBox[{"FontFamily", "\[Rule]", "\"\<STIX\>\""}]}], "]"}]}]], "Input",
+ CellChangeTimes->{
+  3.843285733519906*^9, {3.846985804869698*^9, 3.846985830214436*^9}, {
+   3.847771912509259*^9, 
+   3.847771915435605*^9}},ExpressionUUID->"4cdfb416-cf16-4664-94b9-\
+8682ba3e7ddf"],
+
+Cell["\<\
+Use in plots like Plot[..., Option1->Value1, Evaluate@FigureStyle[style], ...]\
+\>", "Text",
+ CellChangeTimes->{{3.8471683586264143`*^9, 
+  3.847168393191965*^9}},ExpressionUUID->"b863a9e6-9341-4a95-80dc-\
+72dbacbf52c4"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"FigureStyle", "[", "style_", "]"}], ":=", 
+  RowBox[{"Sequence", "@@", 
+   RowBox[{"(", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"#", "\[Rule]", "style"}], "&"}], "/@", 
+     RowBox[{"{", 
+      RowBox[{"AxesStyle", ",", "TicksStyle", ",", "FrameStyle"}], "}"}]}], 
+    ")"}]}]}]], "Input",
+ CellLabel->
+  "12/6/21 20:28:10 \
+In[9]:=",ExpressionUUID->"768631b5-94d8-4cf3-8c99-2b0616ce1aef"],
+
+Cell["\<\
+frame ticks bug (https://mathematica.stackexchange.com/a/107473)\
+\>", "Text",
+ CellChangeTimes->{{3.846139513489623*^9, 
+  3.846139526602495*^9}},ExpressionUUID->"1912adcb-3892-405e-aaba-\
+98f65dc0f797"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"linearFrameTicks", "=", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Most", "/@", 
+         RowBox[{
+          RowBox[{"Charting`ScaledTicks", "[", 
+           RowBox[{"{", 
+            RowBox[{"Identity", ",", "Identity"}], "}"}], "]"}], "[", "##", 
+          "]"}]}], "&"}], ",", 
+       RowBox[{
+        RowBox[{"Most", "/@", 
+         RowBox[{
+          RowBox[{"Charting`ScaledFrameTicks", "[", 
+           RowBox[{"{", 
+            RowBox[{"Identity", ",", "Identity"}], "}"}], "]"}], "[", "##", 
+          "]"}]}], "&"}]}], "}"}], ",", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"Most", "/@", 
+         RowBox[{
+          RowBox[{"Charting`ScaledTicks", "[", 
+           RowBox[{"{", 
+            RowBox[{"Identity", ",", "Identity"}], "}"}], "]"}], "[", "##", 
+          "]"}]}], "&"}], ",", 
+       RowBox[{
+        RowBox[{"Most", "/@", 
+         RowBox[{
+          RowBox[{"Charting`ScaledFrameTicks", "[", 
+           RowBox[{"{", 
+            RowBox[{"Identity", ",", "Identity"}], "}"}], "]"}], "[", "##", 
+          "]"}]}], "&"}]}], "}"}]}], "}"}]}], ";"}]], "Input",
+ CellChangeTimes->{{3.8461394474392347`*^9, 3.846139447439992*^9}},
+ CellLabel->
+  "12/6/21 20:28:10 \
+In[10]:=",ExpressionUUID->"95d8c815-baef-4528-823e-8840a1ddb31a"],
+
+Cell["\<\
+Fix frame labels being too far from the axis: \
+(https://mathematica.stackexchange.com/a/131384)\
+\>", "Text",
+ CellChangeTimes->{{3.847172127450718*^9, 
+  3.847172147813819*^9}},ExpressionUUID->"da4a4de3-fd87-454d-8e3f-\
+37fb24510c29"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"ShiftFrameLabel", "[", "space_", "]"}], "[", "x_", "]"}], ":=", 
+  RowBox[{"Framed", "[", 
+   RowBox[{"x", ",", 
+    RowBox[{"FrameStyle", "\[Rule]", "None"}], ",", 
+    RowBox[{"FrameMargins", "\[Rule]", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{"0", ",", "0"}], "}"}], ",", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"space", ">", "0"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"0", ",", 
+           RowBox[{"-", "space"}]}], "}"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"space", ",", "0"}], "}"}]}], "]"}]}], "}"}]}], ",", 
+    RowBox[{"ContentPadding", "\[Rule]", "False"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.847171853701301*^9, 3.847171853702056*^9}, {
+  3.8471720715989656`*^9, 3.847172080754243*^9}, {3.847172396826281*^9, 
+  3.847172441749351*^9}},
+ CellLabel->
+  "12/6/21 20:28:10 \
+In[11]:=",ExpressionUUID->"0be93de4-5c31-4a3c-9e17-11ad7e0e765c"]
+}, Open  ]]
+},
+WindowSize->{1916, 954},
+WindowMargins->{{2, Automatic}, {4, Automatic}},
+FrontEndVersion->"12.0 for Linux x86 (64-bit) (April 8, 2019)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 209, 4, 68, "Section",ExpressionUUID->"697318a9-1244-4ac0-a112-893bfa77a154"],
+Cell[792, 28, 297, 7, 46, "Input",ExpressionUUID->"16ecb3cc-e50f-4e08-a5ae-3409b3be733f"],
+Cell[1092, 37, 190, 4, 46, "Input",ExpressionUUID->"64785ab6-241f-48da-8290-1172b681f450"],
+Cell[1285, 43, 1186, 31, 116, "Input",ExpressionUUID->"dd2f022b-5a7b-4e0e-ad0b-02231643b229"],
+Cell[2474, 76, 2279, 54, 208, "Input",ExpressionUUID->"9baea543-5454-41d9-9dac-20609431c992"],
+Cell[4756, 132, 211, 4, 36, "Text",ExpressionUUID->"e3be6eb5-50c3-4327-a67a-55682ae7e829"],
+Cell[4970, 138, 1326, 31, 116, "Input",ExpressionUUID->"d9d76f6f-4771-4544-a1ca-8da0ef857bef"],
+Cell[6299, 171, 638, 18, 46, "Input",ExpressionUUID->"77863fac-fd36-48ef-ba6e-5afb65d87a18"],
+Cell[CellGroupData[{
+Cell[6962, 193, 377, 9, 46, "Input",ExpressionUUID->"39c83da9-7b05-4e84-af08-222cc3e5786d"],
+Cell[7342, 204, 4213, 99, 53, "Output",ExpressionUUID->"27d790f8-6382-44e4-8b70-37781c271849"]
+}, Open  ]],
+Cell[11570, 306, 512, 13, 31, "Input",ExpressionUUID->"4cdfb416-cf16-4664-94b9-8682ba3e7ddf"],
+Cell[12085, 321, 230, 5, 36, "Text",ExpressionUUID->"b863a9e6-9341-4a95-80dc-72dbacbf52c4"],
+Cell[12318, 328, 426, 13, 46, "Input",ExpressionUUID->"768631b5-94d8-4cf3-8c99-2b0616ce1aef"],
+Cell[12747, 343, 214, 5, 36, "Text",ExpressionUUID->"1912adcb-3892-405e-aaba-98f65dc0f797"],
+Cell[12964, 350, 1364, 40, 70, "Input",ExpressionUUID->"95d8c815-baef-4528-823e-8840a1ddb31a"],
+Cell[14331, 392, 246, 6, 36, "Text",ExpressionUUID->"da4a4de3-fd87-454d-8e3f-37fb24510c29"],
+Cell[14580, 400, 978, 26, 46, "Input",ExpressionUUID->"0be93de4-5c31-4a3c-9e17-11ad7e0e765c"]
+}, Open  ]]
+}
+]
+*)
+
